@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body,
+  #__next {
+    @apply relative h-full w-full p-0 m-0 text-body-1 text-primary bg-primary;
+    min-height: 100vh;
+    min-width: 100vw;
+    line-height: 140%;
+  }
+
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+
+  h1 {
+    @apply text-title-1;
+    line-height: 130%;
+  }
+  h2 {
+    @apply text-title-2;
+    line-height: 150%;
+  }
+  h3 {
+    @apply text-title-3;
+    line-height: 135%;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 900;
+  }
+
+  textarea:focus,
+  input:focus {
+    outline: none;
+  }
+}
+
+@layer components {
+  button,
+  a {
+    @apply size-m justify-center items-center gap-2 rounded;
+  }
+}
+
+@layer utilities {
+  .size {
+    &-s {
+      @apply py-2 px-4 h-12;
+    }
+    &-m {
+      @apply py-4 px-6 h-16;
+    }
+    &-l {
+      @apply py-4 px-10 h-16;
+    }
+    &-x-0 {
+      @apply px-0;
+    }
+    &-y-0 {
+      @apply py-0;
+    }
+    &-0 {
+      @apply p-0 h-auto;
+    }
+  }
+  .b {
+    &-t {
+      border-top: var(--border);
+    }
+    &-r {
+      border-right: var(--border);
+    }
+    &-b {
+      border-bottom: var(--border);
+    }
+    &-l {
+      border-left: var(--border);
+    }
+  }
+}
+
+:root {
+  --blue: rgb(47, 73, 209);
+  --dark-blue: rgb(44, 54, 93);
+  --gray-blue: rgb(129, 139, 177);
+  --gray: rgb(54, 54, 54);
+  --green: rgb(25, 222, 45);
+  --red: rgb(222, 25, 25);
+  --yellow: rgb(245, 184, 28);
+}
+.dark {
+  --bg-primary: rgb(30, 30, 30);
+  --bg-secondary: rgb(23, 23, 23);
+  --txt-primary: rgb(129, 129, 129);
+  --txt-secondary: #fff;
+  --select: #f81ce5;
+  --border: 1px solid rgb(30, 30, 30);
+}
+.light {
+  --bg-primary: #000;
+  --bg-secondary: #111;
+  --txt-primary: #888;
+  --txt-secondary: #fff;
+  --select: #79ffe1;
+}
