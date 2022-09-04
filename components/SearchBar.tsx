@@ -1,8 +1,8 @@
 import cn from 'classnames'
 import type { ChangeEvent, KeyboardEventHandler } from 'react'
 
-import { Search } from '@components/icons'
-import type { DefaultProps } from '@components/ui/types'
+import { Search } from 'components/icons'
+import type { DefaultProps } from 'components/ui/types'
 
 type SearchBarProps = {
   value?: string | number

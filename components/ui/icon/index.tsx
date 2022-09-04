@@ -3,7 +3,7 @@ import cn from 'classnames'
 import type { ReactNode, Ref } from 'react'
 
 import icon from './icon.module.css'
-import type { DefaultProps } from '@components/ui/types'
+import type { DefaultProps } from 'components/ui/types'
 
 export type IconProps = {
   i?: ReactNode

@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form'
 import { capitalize } from 'lodash-es'
 import type { SubmitHandler } from 'react-hook-form'
 
-import { withModalConfig } from '@hocs'
-import { ModalCollection, MODAL_NAMES } from '@components/ModalCollection'
-import { Button } from '@components/ui'
-import { showNewIngredientModal } from '@components/modals'
-import type { ModalProps } from '@components/ui'
+import { withModalConfig } from 'hocs'
+import { ModalCollection, MODAL_NAMES } from 'components/ModalCollection'
+import { Button } from 'components/ui'
+import { showNewIngredientModal } from 'components/modals'
+import type { ModalProps } from 'components/ui'
 
 type Input = { itemName: string }
 export type ItemType = 'ingredient' | 'meal' | 'plan'

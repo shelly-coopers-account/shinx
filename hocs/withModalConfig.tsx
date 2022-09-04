@@ -1,8 +1,8 @@
 import { cloneElement } from 'react'
 
-import { ModalCollection, MODAL_NAMES } from '@components/ModalCollection'
-import { Modal } from '@components/ui'
-import type { ModalProps } from '@components/ui'
+import { ModalCollection, MODAL_NAMES } from 'components/ModalCollection'
+import { Modal } from 'components/ui'
+import type { ModalProps } from 'components/ui'
 
 export type ModalBodyProps = {
   isVisible: boolean

@@ -1,4 +1,4 @@
-import DashboardLayout from '@components/layouts'
+import DashboardLayout from 'components/layouts'
 import type { Page } from 'next/app'
 
 const Overview: Page = () => {

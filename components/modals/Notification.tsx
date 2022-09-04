@@ -1,7 +1,7 @@
-import { withModalConfig } from '@hocs'
-import { ModalCollection, MODAL_NAMES } from '@components/ModalCollection'
-import { Button } from '@components/ui'
-import type { ModalProps } from '@components/ui'
+import { withModalConfig } from 'hocs'
+import { ModalCollection, MODAL_NAMES } from 'components/ModalCollection'
+import { Button } from 'components/ui'
+import type { ModalProps } from 'components/ui'
 
 const NotificationModal = ({
   text,

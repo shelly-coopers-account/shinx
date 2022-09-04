@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   Menu,
   MenuItem,
@@ -9,10 +9,15 @@ import {
 } from '@szhsin/react-menu'
 import type { ReactNode } from 'react'
 
-import { Link, Button } from '@components/ui'
-import { Logo, Cube, Rocket, Gear, Search } from '@components/icons'
-import { showNameItemModal, showNotificationModal } from '@components/modals'
-import type { ItemType } from '@components/modals/NameItem'
+import { Link, Button } from 'components/ui'
+import { Logo, Cube, Rocket, Gear, Search } from 'components/icons'
+import {
+  showNameItemModal,
+  showNewIngredientModal,
+  showNotificationModal,
+} from 'components/modals'
+import { useAuth } from 'lib/auth'
+import type { ItemType } from 'components/modals/NameItem'
 
 type RootLayoutProps = {
   children: ReactNode
@@ -20,15 +25,17 @@ type RootLayoutProps = {
 
 const Nav = () => {
   const finishedItemsRef = useRef(null)
-  const [FIMenu, toggleMenu] = useMenuState({ transition: true })
+  const [finidhedItemsMenu, toggleMenu] = useMenuState({ transition: true })
   const { route } = useRouter()
+
+  const { user, signout } = useAuth()
 
   const createItem = (i: ItemType) =>
     route.includes('new')
       ? showNotificationModal(
           "You're in the middle of creating an item. Please terminate this first."
         )
-      : showNameItemModal(i)
+      : showNewIngredientModal()
 
   return (
     <nav className='flex flex-col bg-secondary fixed top-0 left-0 p-4 w-64 h-[100vh] z-layout'>
@@ -49,7 +56,7 @@ const Nav = () => {
             before: <Rocket />,
             onMouseEnter: () => toggleMenu(true),
             ref: finishedItemsRef,
-            ...FIMenu,
+            ...finidhedItemsMenu,
           },
           { text: 'Settings', before: <Gear />, to: '/settings' },
           { text: 'Database', before: <Search />, to: '/database' },
@@ -67,12 +74,11 @@ const Nav = () => {
           )
         })}
         <ControlledMenu
-          {...FIMenu}
+          {...finidhedItemsMenu}
           anchorRef={finishedItemsRef}
           onMouseLeave={() => toggleMenu(false)}
           onClose={() => toggleMenu(false)}
-          offsetX={245}
-          offsetY={-50}
+          direction='right'
         >
           {['Ingredients', 'Meals', 'Plans'].map((s) => (
             <MenuItem key={s}>{s}</MenuItem>
@@ -100,19 +106,21 @@ const Nav = () => {
           menuButton={
             <Button className='w-full px-0 justify-start gap-4'>
               <Image
-                src='/images/person.jpeg'
+                src={user?.photoUrl || '/images/person.jpeg'}
                 height={50}
                 width={50}
                 className='rounded-full'
               />
-              Yegor Arndt
+              {user?.name}
             </Button>
           }
           transition
           offsetY={10}
         >
-          {['Log out', 'Save Session'].map((s) => (
-            <MenuItem key={s}>{s}</MenuItem>
+          {['Sign out', 'Save Session'].map((s, i) => (
+            <MenuItem key={s} onClick={i === 0 ? () => signout() : () => null}>
+              {s}
+            </MenuItem>
           ))}
         </Menu>
       </footer>

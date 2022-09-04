@@ -1,23 +1,20 @@
 import { useRouter } from 'next/router'
-import { Fragment } from 'react'
+// import { mutate } from 'swr'
 import { useForm } from 'react-hook-form'
-import { capitalize, forIn } from 'lodash-es'
+import { ErrorMessage } from '@hookform/error-message';
+import { capitalize } from 'lodash-es'
 import type { SubmitHandler } from 'react-hook-form'
 
-import { withModalConfig } from '@hocs'
-import { ModalCollection, MODAL_NAMES } from '@components/ModalCollection'
-import { Button, ModalProps } from '@components/ui'
-import type { Ingredient, TableProps } from 'pages/ingredients/[id]'
+import { withModalConfig } from 'hocs'
+import { ModalCollection, MODAL_NAMES } from 'components/ModalCollection'
+import { Button, ModalProps } from 'components/ui'
+import { createIngredient } from 'lib/db'
+import type { Ingredient } from 'lib/types'
 
-export type Inputs = Ingredient
-export type Table = Exclude<TableProps['name'], 'All'>
+export type Inputs = Omit<Ingredient, 'createdAt'>
 
-const NewIngredientModal = ({
-  name,
-  table,
-  onClose,
-}: Partial<ModalProps> & { name: string; table?: Table }) => {
-  const { replace, route } = useRouter()
+const NewIngredientModal = ({ onClose }: Partial<ModalProps>) => {
+  const { push, route } = useRouter()
   const {
     register,
     handleSubmit,
@@ -25,45 +22,57 @@ const NewIngredientModal = ({
     reset,
   } = useForm<Inputs>({
     defaultValues: {
-      name,
-    },
+      weight: '100'
+    }
   })
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    let dataEncodedToUrl = table ? `table=${table}&` : ''
-    forIn(data, (v, k) => {
-      dataEncodedToUrl += `${k}=${v}&`
-    })
+  const onSubmit: SubmitHandler<Inputs> = async (ingredient) => {
+    const ingredientWithDate = {
+      ...ingredient,
+      createdAt: new Date().toISOString(),
+    }
 
+    await createIngredient(ingredientWithDate)
+
+    // mutate(
+    //   '/api/ingredients',
+    //   async (data: Array<Ingredient>) => [...data, ingredientWithDate],
+    //   false
+    // )
+
+    const targetRoute = '/ingredients'
     onClose && onClose()
 
-    replace(`ingredients/${dataEncodedToUrl}`)
+    if (route !== targetRoute) push(targetRoute)
   }
 
   return (
     <form className='flex flex-col gap-5 p-5' onSubmit={handleSubmit(onSubmit)}>
       {(
-        ['name', 'carbs', 'protein', 'fat', 'calories'] as Array<keyof Inputs>
+        ['name', 'weight', 'carbs', 'protein', 'fat', 'calories'] as Array<keyof Inputs>
       ).map((fieldName, i) => (
-        <Fragment key={fieldName}>
+        <label key={fieldName}>
+          {capitalize(fieldName)}
           <input
-            type='text'
-            className='bg-transparent text-secondary first-of-type:text-label'
-            placeholder={capitalize(fieldName)}
+            autoFocus={i === 0}
+            className='bg-transparent text-secondary ml-3'
+            placeholder={[0, 5].includes(i) ? '' : 'grams'}
             autoComplete='off'
             {...register(fieldName, {
-              required: true,
+              required: `${capitalize(fieldName)} is required`,
               pattern: i === 0 ? /[\s\S]+/g : /^[0-9]*$/,
             })}
           />
-          {errors[fieldName] && (
-            <span className='text-red'>
-              {errors[fieldName]?.type === 'required'
-                ? `${capitalize(fieldName)} is required`
-                : `For ${fieldName} only numbers are allowed`}
-            </span>
-          )}
-        </Fragment>
+          <ErrorMessage 
+            errors={errors} 
+            name={fieldName} 
+            render={({ message }) => 
+              <div className='text-red'>
+                {message || `For ${fieldName} only numbers are allowed`}
+              </div>
+            }
+          />
+        </label>
       ))}
       <footer className='flex justify-center gap-5 mt-3'>
         {[
@@ -81,10 +90,10 @@ const NewIngredientModal = ({
   )
 }
 
-export default (name: string, table?: Table) => {
+export default () => {
   const id = MODAL_NAMES.newIngredient
   const component = withModalConfig({
-    body: <NewIngredientModal name={name} table={table} />,
+    body: <NewIngredientModal />,
     id,
   })
 

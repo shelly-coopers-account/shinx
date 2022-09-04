@@ -15,7 +15,7 @@ export default function Document() {
           rel='stylesheet'
         />
       </Head>
-      <body className='selection:bg-select selection:text-secondary'>
+      <body className='selection:bg-select selection:text-secondary dark'>
         <Main />
         <NextScript />
       </body>

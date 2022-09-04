@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react'
 import format from 'date-fns/format'
 import cn from 'classnames'
 
-import DashboardLayout from '@components/layouts'
-import { SearchBar } from '@components'
-import { Button, Link } from '@components/ui'
-import { Present } from '@components/icons'
-import { showNameItemModal } from '@components/modals'
+import DashboardLayout from 'components/layouts'
+import { SearchBar } from 'components'
+import { Button, Link } from 'components/ui'
+import { Present } from 'components/icons'
+import { showNewIngredientModal } from 'components/modals'
+import { useAuth } from 'lib/auth'
 import type { Page } from 'next/app'
-import type { ButtonProps, LinkProps } from '@components/ui'
+import type { ButtonProps, LinkProps } from 'components/ui'
 
 type Greeting = 'Hello' | 'Good morning' | 'Good afternoon' | 'Good evening'
 
 const Home: Page = () => {
   const [greeting, setGreeting] = useState<Greeting>('Hello')
+  const { user } = useAuth()
 
   useEffect(() => {
     const hour = new Date().getHours()
@@ -26,9 +28,9 @@ const Home: Page = () => {
   return (
     <>
       <header className='flex justify-between p-8'>
-        <section aria-label={greeting + ' Yegor'}>
+        <section aria-label={greeting + user?.name}>
           <h1 className='flex gap-4 mb-3 text-secondary'>
-            {greeting}, Yegor
+            {greeting}, {user?.name}
             <Link
               to='/'
               before={<Present />}
@@ -55,15 +57,15 @@ const Home: Page = () => {
             items: [
               {
                 text: '+ New ingredient',
-                onClick: () => showNameItemModal('ingredient'),
+                onClick: showNewIngredientModal,
               },
               {
                 text: '+ New meal',
-                onClick: () => showNameItemModal('meal'),
+                onClick: showNewIngredientModal,
               },
               {
                 text: '+ New plan',
-                onClick: () => showNameItemModal('plan'),
+                onClick: showNewIngredientModal,
               },
               {
                 text: 'Look up a food',

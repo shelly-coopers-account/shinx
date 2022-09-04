@@ -2,10 +2,10 @@ import { createElement, forwardRef, memo } from 'react'
 import cn from 'classnames'
 import type { Ref, ReactNode } from 'react'
 
-import { Icon } from '@components/ui'
+import { Icon } from 'components/ui'
 import btn from './btn.module.css'
-import type { IconProps } from '@components/ui/icon'
-import type { DefaultProps } from '@components/ui/types'
+import type { IconProps } from 'components/ui/icon'
+import type { DefaultProps } from 'components/ui/types'
 
 export type ButtonBaseProps = {
   text?: string
