@@ -12,7 +12,6 @@ import type { ReactNode } from 'react'
 import { Link, Button } from 'components/ui'
 import { Logo, Cube, Rocket, Gear, Search } from 'components/icons'
 import {
-  showNameItemModal,
   showNewIngredientModal,
   showNotificationModal,
 } from 'components/modals'
