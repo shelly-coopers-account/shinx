@@ -14,7 +14,10 @@ const LoginModal = ({ redirect }: { redirect: string }) => {
       <details>
         <summary>Simple calorietracker you always wanted</summary>
       </details>
-      <Button text='Log in with Google' onClick={() => signinWithGoogle(redirect)} />
+      <Button
+        text='Log in with Google'
+        onClick={() => signinWithGoogle(redirect)}
+      />
     </div>
   )
 }

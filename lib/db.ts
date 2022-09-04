@@ -21,5 +21,5 @@ export function createIngredient(data: Ingredient) {
 export function createMeal(data: Meal) {
   const coll = collection(firestore, 'meals')
   const document = doc(coll)
-  return setDoc(document, data, { merge: true })
+  return setDoc(document, { ...data }, { merge: true })
 }

@@ -29,10 +29,7 @@ export type Ingredient = {
 
 export type Meal = {
   name: string
-  ingredients: Array<Ingredient> | []
-  id: string
-  author: string
-  authorId: string
+  ingredients: Ingredient[]
   createdAt: string
   carbs: string
   protein: string
@@ -40,8 +37,4 @@ export type Meal = {
   calories: string
 }
 
-export type IngredientTables = {
-  carbs: Array<Ingredient>
-  protein: Array<Ingredient>
-  fat: Array<Ingredient>
-}
+export type MealsTable = Meal[]

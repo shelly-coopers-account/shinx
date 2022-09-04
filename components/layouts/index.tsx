@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
+import { capitalize } from 'lodash-es'
 import {
   Menu,
   MenuItem,
@@ -16,7 +17,6 @@ import {
   showNotificationModal,
 } from 'components/modals'
 import { useAuth } from 'lib/auth'
-import type { ItemType } from 'components/modals/NameItem'
 
 type RootLayoutProps = {
   children: ReactNode
@@ -29,7 +29,7 @@ const Nav = () => {
 
   const { user, signout } = useAuth()
 
-  const createItem = (i: ItemType) =>
+  const createItem = (i: 'ingredient' | 'meal' | 'plan') =>
     route.includes('new')
       ? showNotificationModal(
           "You're in the middle of creating an item. Please terminate this first."
@@ -79,8 +79,10 @@ const Nav = () => {
           onClose={() => toggleMenu(false)}
           direction='right'
         >
-          {['Ingredients', 'Meals', 'Plans'].map((s) => (
-            <MenuItem key={s}>{s}</MenuItem>
+          {['ingredients', 'meals', 'plans'].map((s) => (
+            <MenuItem key={s}>
+              <Link text={capitalize(s)} to={`/${s}`} className='size-0' />
+            </MenuItem>
           ))}
         </ControlledMenu>
         <li className='b-t mt-5'>

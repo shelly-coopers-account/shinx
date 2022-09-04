@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 // import { mutate } from 'swr'
 import { useForm } from 'react-hook-form'
-import { ErrorMessage } from '@hookform/error-message';
+import { ErrorMessage } from '@hookform/error-message'
 import { capitalize } from 'lodash-es'
 import type { SubmitHandler } from 'react-hook-form'
 
@@ -22,8 +22,8 @@ const NewIngredientModal = ({ onClose }: Partial<ModalProps>) => {
     reset,
   } = useForm<Inputs>({
     defaultValues: {
-      weight: '100'
-    }
+      weight: '100',
+    },
   })
 
   const onSubmit: SubmitHandler<Inputs> = async (ingredient) => {
@@ -49,7 +49,9 @@ const NewIngredientModal = ({ onClose }: Partial<ModalProps>) => {
   return (
     <form className='flex flex-col gap-5 p-5' onSubmit={handleSubmit(onSubmit)}>
       {(
-        ['name', 'weight', 'carbs', 'protein', 'fat', 'calories'] as Array<keyof Inputs>
+        ['name', 'weight', 'carbs', 'protein', 'fat', 'calories'] as Array<
+          keyof Inputs
+        >
       ).map((fieldName, i) => (
         <label key={fieldName}>
           {capitalize(fieldName)}
@@ -63,14 +65,14 @@ const NewIngredientModal = ({ onClose }: Partial<ModalProps>) => {
               pattern: i === 0 ? /[\s\S]+/g : /^[0-9]*$/,
             })}
           />
-          <ErrorMessage 
-            errors={errors} 
-            name={fieldName} 
-            render={({ message }) => 
+          <ErrorMessage
+            errors={errors}
+            name={fieldName}
+            render={({ message }) => (
               <div className='text-red'>
                 {message || `For ${fieldName} only numbers are allowed`}
               </div>
-            }
+            )}
           />
         </label>
       ))}

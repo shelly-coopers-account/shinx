@@ -5,7 +5,11 @@ import db from 'lib/firebase-admin'
 import type { Ingredient } from 'lib/types'
 
 type IngredientWithId = Ingredient & { id: string }
-type IngredientTables = { carbs: IngredientWithId[], protein: IngredientWithId[], fat: IngredientWithId[] }
+type IngredientTables = {
+  carbs: IngredientWithId[]
+  protein: IngredientWithId[]
+  fat: IngredientWithId[]
+}
 
 const format = (allIngredients: IngredientWithId[]) => {
   function assignTable(i: IngredientWithId) {

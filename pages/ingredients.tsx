@@ -4,14 +4,20 @@ import { Menu, MenuItem } from '@szhsin/react-menu'
 import DashboardLayout from 'components/layouts'
 import { useApi } from 'hooks'
 import type { Page } from 'next/app'
-import type { IngredientTables } from 'lib/types'
+import type { Ingredient } from 'lib/types'
+
+type IngredientTables = {
+  carbs: Array<Ingredient>
+  protein: Array<Ingredient>
+  fat: Array<Ingredient>
+}
 
 export type TableProps = {
   name: 'All' | 'Carbs' | 'Protein' | 'Fat'
   ingredients: IngredientTables[keyof IngredientTables]
 }
 
-const IngredientTable = ({ name, ingredients }: TableProps) => (
+export const IngredientTable = ({ name, ingredients }: TableProps) => (
   <section
     className='bg-secondary shadow rounded-lg flex flex-col p-5'
     aria-label={name}
@@ -28,26 +34,32 @@ const IngredientTable = ({ name, ingredients }: TableProps) => (
         </tr>
       </thead>
       <tbody>
-        {ingredients.length ? ingredients.map((i) => (
-          <Menu
-            key={i.name}
-            transition
-            offsetY={10}
-            menuButton={
-              <tr className='hover:brightness-150 transition-all my-5 cursor-pointer'>
-                <td>{i.name}</td>
-                <td>{i.carbs}</td>
-                <td>{i.protein}</td>
-                <td>{i.fat}</td>
-                <td>{i.calories}</td>
-              </tr>
-            }
-          >
-            {['Delete', 'Edit', 'Add to'].map((s) => (
-              <MenuItem key={s}>{s}</MenuItem>
-            ))}
-          </Menu>
-        )) : 'None has been added yet.'}
+        {ingredients.length ? (
+          ingredients.map((i) => (
+            <Menu
+              key={i.name}
+              transition
+              offsetY={10}
+              menuButton={
+                <tr className='hover:brightness-150 transition-all my-5 cursor-pointer'>
+                  <td>{i.name}</td>
+                  <td>{i.carbs}</td>
+                  <td>{i.protein}</td>
+                  <td>{i.fat}</td>
+                  <td>{i.calories}</td>
+                </tr>
+              }
+            >
+              {['Delete', 'Edit', 'Add to'].map((s) => (
+                <MenuItem key={s}>{s}</MenuItem>
+              ))}
+            </Menu>
+          ))
+        ) : (
+          <tr>
+            <td>None has been added yet.</td>
+          </tr>
+        )}
       </tbody>
     </table>
   </section>
