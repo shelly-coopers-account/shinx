@@ -6,7 +6,7 @@ import DashboardLayout from 'components/layouts'
 import { SearchBar } from 'components'
 import { Button, Link } from 'components/ui'
 import { Present } from 'components/icons'
-import { showNewIngredientModal } from 'components/modals'
+import { showEditIngredientModal } from 'components/modals'
 import { useAuth } from 'lib/auth'
 import type { Page } from 'next/app'
 import type { ButtonProps, LinkProps } from 'components/ui'
@@ -57,15 +57,15 @@ const Home: Page = () => {
             items: [
               {
                 text: '+ New ingredient',
-                onClick: showNewIngredientModal,
+                onClick: showEditIngredientModal,
               },
               {
                 text: '+ New meal',
-                onClick: showNewIngredientModal,
+                onClick: showEditIngredientModal,
               },
               {
                 text: '+ New plan',
-                onClick: showNewIngredientModal,
+                onClick: showEditIngredientModal,
               },
               {
                 text: 'Look up a food',

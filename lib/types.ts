@@ -24,17 +24,13 @@ export type Ingredient = {
   protein: string
   fat: string
   calories: string
-  createdAt: string
 }
 
 export type Meal = {
   name: string
   ingredients: Ingredient[]
-  createdAt: string
   carbs: string
   protein: string
   fat: string
   calories: string
 }
-
-export type MealsTable = Meal[]

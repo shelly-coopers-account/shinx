@@ -1,61 +1,80 @@
-import type { Page } from 'next/app'
+import { capitalize } from 'lodash-es'
+import { Menu, MenuItem } from '@szhsin/react-menu'
 
 import DashboardLayout from 'components/layouts'
-import { IngredientTable } from './ingredients'
+import { Table, TableSkeleton } from 'components'
 import { useApi } from 'hooks'
+import type { Page } from 'next/app'
+import type { Meal } from 'lib/types'
+
+type MealTables = {
+  all: Meal[]
+  [key: string]: Meal[]
+}
+
+type MealTableProps = {
+  name: string
+  meals: Meal[]
+}
+
+const cols = ['Name', 'Ingredients', 'Carbs', 'Protein', 'Fat', 'Calories']
+
+export const MealTable = ({ name, meals }: MealTableProps) => (
+  <Table
+    name={name}
+    cols={cols}
+    tbody={meals?.map((i) => (
+      <Menu
+        key={i.name}
+        transition
+        offsetY={10}
+        menuButton={
+          <tr className='hover:brightness-150 transition-all my-5 cursor-pointer'>
+            <td>{i.name}</td>
+            <td>{i.carbs}</td>
+            <td>{i.protein}</td>
+            <td>{i.fat}</td>
+            <td>{i.calories}</td>
+          </tr>
+        }
+      >
+        {['See ingredients', 'Delete', 'Edit', 'Add to'].map((s) => (
+          <MenuItem key={s}>{s}</MenuItem>
+        ))}
+      </Menu>
+    ))}
+  />
+)
+
+const MealTablesSkeleton = () => (
+  <div className='grid grid-cols-2 gap-5 p-8'>
+    {['All'].map((table) => (
+      <TableSkeleton key={table} name={table} cols={cols} />
+    ))}
+  </div>
+)
 
 const Meals: Page = () => {
-  const { data } = useApi({ url: '/api/meals' })
+  const { data } = useApi<MealTables>({
+    url: '/api/meals',
+    config: { suspense: true },
+  })
 
   return (
-    <section
-      className='bg-secondary shadow rounded-lg flex flex-col p-5'
-      aria-label={name}
-    >
-      <h3>{name}</h3>
-      <table className='table-auto mt-3 text-left border-separate border-spacing-y-2'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Carbs</th>
-            <th>Protein</th>
-            <th>Fat</th>
-            <th>Calories</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ingredients.length ? (
-            ingredients.map((i) => (
-              <Menu
-                key={i.name}
-                transition
-                offsetY={10}
-                menuButton={
-                  <tr className='hover:brightness-150 transition-all my-5 cursor-pointer'>
-                    <td>{i.name}</td>
-                    <td>{i.carbs}</td>
-                    <td>{i.protein}</td>
-                    <td>{i.fat}</td>
-                    <td>{i.calories}</td>
-                  </tr>
-                }
-              >
-                {['Delete', 'Edit', 'Add to'].map((s) => (
-                  <MenuItem key={s}>{s}</MenuItem>
-                ))}
-              </Menu>
-            ))
-          ) : (
-            <tr>
-              <td>None has been added yet.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </section>
+    <div className='grid grid-cols-2 gap-5 p-8'>
+      <MealTable name='All' meals={data.all} />
+      {Object.keys(data).map((table) => (
+        <MealTable
+          key={table}
+          name={capitalize(table) as MealTableProps['name']}
+          meals={data[table]}
+        />
+      ))}
+    </div>
   )
 }
 
 Meals.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>
+Meals.getFallback = () => <MealTablesSkeleton />
 
 export default Meals

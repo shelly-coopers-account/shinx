@@ -22,7 +22,7 @@ export const App: NextComponentType<
   return (
     <AuthProvider>
       <ModalCollection />
-      <Suspense fallback={getFallback()}>
+      <Suspense fallback={getLayout(getFallback())}>
         <RouteGuard>{getLayout(<Component {...pageProps} />)}</RouteGuard>
       </Suspense>
     </AuthProvider>

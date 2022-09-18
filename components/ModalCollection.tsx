@@ -14,7 +14,8 @@ type State = Readonly<{ [id: string]: ModalItem }>
 export enum MODAL_NAMES {
   login = 'login',
   itemName = 'itemName',
-  newIngredient = 'newIngredient',
+  EditIngredient = 'EditIngredient',
+  editMeal = 'editMeal',
   notification = 'notification',
 }
 

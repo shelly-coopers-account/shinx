@@ -14,7 +14,6 @@ const RouteGuard = ({ children }: { children: ReactNode }) => {
     if (!loading && !user && !publicRoutes.includes(route)) push('/login')
   }, [user, loading])
 
-  // return <>{route === '/login' ? children : (user && !loading ? children : 'Loading...')}</>
   return <>{route === '/login' ? children : user && !loading && children}</>
 }
 

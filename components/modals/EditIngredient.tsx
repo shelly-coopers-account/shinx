@@ -13,7 +13,7 @@ import type { Ingredient } from 'lib/types'
 
 export type Inputs = Omit<Ingredient, 'createdAt'>
 
-const NewIngredientModal = ({ onClose }: Partial<ModalProps>) => {
+const EditIngredientModal = ({ onClose }: Partial<ModalProps>) => {
   const { push, route } = useRouter()
   const {
     register,
@@ -93,9 +93,9 @@ const NewIngredientModal = ({ onClose }: Partial<ModalProps>) => {
 }
 
 export default () => {
-  const id = MODAL_NAMES.newIngredient
+  const id = MODAL_NAMES.EditIngredient
   const component = withModalConfig({
-    body: <NewIngredientModal />,
+    body: <EditIngredientModal />,
     id,
   })
 

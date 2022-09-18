@@ -15,7 +15,11 @@ export function createUser(data: Omit<FormattedUser, 'token'>) {
 export function createIngredient(data: Ingredient) {
   const coll = collection(firestore, 'ingredients')
   const document = doc(coll)
-  return setDoc(document, { ...data }, { merge: true })
+  const dataWithDate = {
+    ...data,
+    createdAt: new Date().toISOString(),
+  }
+  return setDoc(document, { ...dataWithDate }, { merge: true })
 }
 
 export function createMeal(data: Meal) {

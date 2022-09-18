@@ -13,7 +13,7 @@ import type { ReactNode } from 'react'
 import { Link, Button } from 'components/ui'
 import { Logo, Cube, Rocket, Gear, Search } from 'components/icons'
 import {
-  showNewIngredientModal,
+  showEditIngredientModal,
   showNotificationModal,
 } from 'components/modals'
 import { useAuth } from 'lib/auth'
@@ -28,13 +28,6 @@ const Nav = () => {
   const { route } = useRouter()
 
   const { user, signout } = useAuth()
-
-  const createItem = (i: 'ingredient' | 'meal' | 'plan') =>
-    route.includes('new')
-      ? showNotificationModal(
-          "You're in the middle of creating an item. Please terminate this first."
-        )
-      : showNewIngredientModal()
 
   return (
     <nav className='flex flex-col bg-secondary fixed top-0 left-0 p-4 w-64 h-[100vh] z-layout'>
@@ -86,20 +79,17 @@ const Nav = () => {
           ))}
         </ControlledMenu>
         <li className='b-t mt-5'>
-          {[
-            {
-              text: '+ New ingredient',
-              onClick: () => createItem('ingredient'),
-            },
-            { text: '+ New meal', onClick: () => createItem('meal') },
-            { text: '+ New plan', onClick: () => createItem('plan') },
-          ].map((props) => (
-            <Button
-              key={props.text}
-              className='p-0 w-full justify-start'
-              {...props}
-            />
-          ))}
+          <Button
+            text='+ New Ingredient'
+            onClick={() =>
+              route.includes('new')
+                ? showNotificationModal(
+                    "You're in the middle of creating an item. Please terminate this first."
+                  )
+                : showEditIngredientModal()
+            }
+            className='p-0 w-full justify-start'
+          />
         </li>
       </ul>
       <footer className='mt-auto b-t py-4'>

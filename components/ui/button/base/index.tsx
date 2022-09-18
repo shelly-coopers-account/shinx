@@ -30,8 +30,8 @@ const ButtonBase = memo(
       }: ButtonBaseProps,
       ref: Ref<HTMLButtonElement | HTMLAnchorElement>
     ) => {
-      const icon = (svg: ReactNode, k: string) =>
-        svg && <Icon i={svg} key={k} className={k} size={isize} />
+      const icon = (svg: ReactNode, cn: string) =>
+        svg && <Icon i={svg} key={cn} className={cn} size={isize} />
       const content = [
         icon(before, 'i-before'),
         children,
